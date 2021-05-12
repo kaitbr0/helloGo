@@ -19,6 +19,18 @@ func Hello(name string) (string, error) {
 	//equal to var message string
 	//message = fmt.Sprintf('HI %v, blahblah', name)
 //}
+func Hellos(names []string) (map[string]string, error){
+	messages := make(map[string]string)
+//loop through names and map a custom message to each name
+	for _, name := range names{
+		message, err := Hello(name)
+		if err != nil {
+			return nil, err
+		}
+		messages[name] = message
+	}
+	return messages, nil
+}
 
 func init(){
 	rand.Seed(time.Now().UnixNano())
