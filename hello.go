@@ -3,12 +3,27 @@ package main
 //declare main package
 import (
 	"fmt"
-
-	"rsc.io/quote"
+	"net/http"
 ) //import fmt package, functions for formatting text
 
+func hello(w http.ResponseWriter, req *http.Request){
+	fmt.Fprintf(w, "hello\n")
+}
+
+func headers(w http.ResponseWriter, req *http.Request){
+	for name, headers := range req.Header{
+		for _, h := range headers {
+			fmt.Fprintf(w, "%v: %v\n", name, h)
+		}
+	}
+}
+
 func main() {
-    fmt.Println(quote.Opt())
+	http.HandleFunc("/hello", hello)
+	http.HandleFunc("/headers", headers)
+
+	http.ListenAndServe(":8090", nil)
+
 }
 
 //go mod tidy to import the package
